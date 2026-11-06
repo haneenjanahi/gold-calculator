@@ -1,34 +1,32 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-  <head>
-    <link rel="apple-touch-icon" href="apple-touch-icon.png.jpeg">
-  </head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>حاسبة الذهب البحرينية</title>
-    <style>
-      body{font-family:system-ui;background:#f8f5ef;color:#302719;max-width:650px;margin:30px auto;padding:16px}
-      main{background:white;padding:24px;border-radius:18px;box-shadow:0 4px 25px #0001}
-      label{display:block;margin-top:14px}
-      input,select,button{font:inherit;padding:12px;border:1px solid #b9ab8d;border-radius:10px;box-sizing:border-box;width:100%}
-      button{background:#80652f;color:white;margin-top:14px;cursor:pointer}
-      output{display:block;background:#f6f0df;padding:16px;border-radius:10px;margin-top:18px;line-height:2}
-      small{color:#685e4b}
-    
-    </style>
-  </head>
-  <body>
-    <main>
-      <h1>حاسبة الذهب 🇧🇭</h1>
-      <p>احسبي قيمة ذهبك وسعر البيع التقريبي للمحل بالدينار البحريني.</p>
-      <label>الوزن بالجرام<input id="weight" type="number" min="0" step="0.01" value="28.50"></label>
-      <label>العيار<select id="karat"><option>18</option><option selected>21</option><option>22</option><option>24</option></select></label>
-      <label>سعر جرام الذهب عيار 24 اليوم (د.ب.)<input id="price24" type="number" min="0" step="0.001" placeholder="أدخلي سعر اليوم"></label><button id="refresh">محاولة جلب السعر المباشر</button>
-      <p id="status"><small>السعر غير محدّث. يمكنك إدخال سعر عيار 24 يدويًا.</small>
-      </p><label>خصم المحل لكل جرام (د.ب.)<input id="discount" type="number" min="0" step="0.1" value="1"></label><label>سعر الشراء الأصلي (د.ب.)<input id="paid" type="number" min="0" step="0.01" value="910"></label>
-      <button id="calculate">احسبي السعر</button><output id="result">أدخلي سعر الذهب واضغطي احسبي السعر.</output>
-      <button onclick="document.getElementById('weight').value=14.38;calc()">قطعة 14.38 جرام</button>
-      <button onclick="document.getElementById('weight').value=14.12;calc()">قطعة 14.12 جرام</button>
-      <button onclick="document.getElementById('weight').value=28.5;calc()">القطعتان 28.50 جرام</button>
-      <p><small>هذه تقديرات وليست عرض شراء من محل. تأكدي من سعر شراء المحل والوزن الصافي. تحديث السعر يعتمد على توفر خدمة الإنترنت ومصدر البيانات.</small></p>
-    </main><script>const $=id=>document.getElementById(id);function calc(){let w=+$('weight').value,k=+$('karat').value,p=+$('price24').value,d=+$('discount').value,paid=+$('paid').value;if(!(w>0&&p>0)){ $('result').textContent='أدخلي وزنًا وسعرًا صالحين.';return}let gram=p*k/24,gross=gram*w,net=Math.max(0,gram-d)*w;$('result').innerHTML=`سعر جرام عيار ${k}: <b>${gram.toFixed(3)} د.ب.</b><br>قيمة الذهب: <b>${gross.toFixed(2)} د.ب.</b><br>تقدير البيع بعد الخصم: <b>${net.toFixed(2)} د.ب.</b><br>الفرق عن سعر الشراء: <b>${(net-paid).toFixed(2)} د.ب.</b>`} $('calculate').onclick=calc;['weight','karat','price24','discount','paid'].forEach(id=>$(id).addEventListener('input',calc));$('refresh').onclick=async()=>{ $('status').textContent='جارٍ محاولة تحديث السعر...';try{let r=await fetch('https://api.gold-api.com/price/XAU');if(!r.ok)throw Error('network');let j=await r.json();if(!(j.price>0))throw Error('data');const b=0.376;let price=j.price*b/31.1034768;$('price24').value=price.toFixed(3);$('status').textContent='تم جلب السعر العالمي التقريبي وتحويله للدينار البحريني. المصدر: gold-api.com. تأكدي من سعر الصرف وسعر المحل.';calc()}catch(e){$('status').textContent='تعذر جلب السعر تلقائيًا. أدخلي سعر عيار 24 يدويًا.'}};</script></body></html>
+<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>حاسبة الذهب البحرينية</title>
+<style>:root{font-family:system-ui,-apple-system,sans-serif;color:#402858;background:#f6effc}*{box-sizing:border-box}body{margin:0;padding:22px 14px;background:linear-gradient(145deg,#eadcf9,#fff)}main{max-width:540px;margin:auto}header{text-align:center;color:#663b93;margin:20px 0 26px}h1{font-size:27px}section{background:white;border:1px solid #e8daf5;border-radius:22px;padding:22px;margin-bottom:18px;box-shadow:0 8px 24px #54317a12}h2{font-size:20px;color:#663b93}label{display:block;font-weight:650;margin:14px 0 7px}input{width:100%;font:inherit;font-size:18px;padding:12px;border:1px solid #d7c3e8;border-radius:12px;background:#fdfaff}button{font:inherit;cursor:pointer}.karats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.karats button{padding:12px 4px;border:1px solid #dbc8ed;border-radius:12px;background:#faf5ff;color:#63398b;font-weight:700}.karats button[aria-pressed=true],.primary{background:#7546a9;color:white}.primary{width:100%;border:0;border-radius:12px;padding:15px;font-weight:700;margin-top:18px}.result{text-align:center;background:#f3e9fc;border-radius:15px;padding:18px;margin-top:17px}.big{font-size:30px;font-weight:800;color:#61368e}.muted{color:#806d8d;font-size:13px;line-height:1.7}.price-row{display:grid;grid-template-columns:85px 1fr;align-items:center;gap:10px;background:#faf7fe;border:1px solid #eee5f7;border-radius:14px;padding:12px;margin-top:10px}.price-row input{min-width:0}.status{background:#f4ebfb;padding:12px;border-radius:12px;color:#624184;font-size:14px}a{color:#7046a4}footer{text-align:center;font-size:12px;color:#786985;line-height:1.8;margin:20px 0}</style></head><body><main>
+<header><div style="font-size:38px">💜</div><h1>حاسبة الذهب البحرينية</h1><p>احسبي قيمة ذهبك بالدينار البحريني</p></header>
+<section><h2>احسبي سعر قطعتك</h2><label for="weight">الوزن بالجرام</label><input id="weight" type="number" min="0" step="any" inputmode="decimal" placeholder="مثلاً 9"><label>اختاري عيار الذهب</label><div class="karats" role="group" aria-label="عيار الذهب"><button type="button" data-k="18" aria-pressed="false">18</button><button type="button" data-k="21" aria-pressed="true">21</button><button type="button" data-k="22" aria-pressed="false">22</button><button type="button" data-k="24" aria-pressed="false">24</button></div><label for="gramPrice" id="priceLabel">سعر جرام عيار 21 اليوم (د.ب.)</label><input id="gramPrice" type="number" min="0" step="any" inputmode="decimal" placeholder="أدخلي سعر الجرام اليوم"><button type="button" class="primary" id="calculate">احسبي سعر القطعة</button><div class="result" aria-live="polite"><div>قيمة قطعة الذهب</div><div class="big" id="total">— د.ب.</div><div class="muted" id="info">أدخلي الوزن وسعر الجرام ثم اضغطي احسبي</div></div></section>
+
+<section><h2>مصادر أسعار الذهب في البحرين</h2><p class="muted">افتحي أحد المصدرين لمعرفة سعر جرام العيار، ثم أدخليه يدويًا في الحاسبة. الروابط لا تحدث الأسعار تلقائيًا.</p><p><a href="https://www.livepriceofgold.com/ar/bahrain-gold-price.html" target="_blank" rel="noopener noreferrer">Live Price of Gold — أسعار البحرين</a></p><p><a href="https://bahrain-goldprice.com/" target="_blank" rel="noopener noreferrer">Bahrain Gold Price — أسعار البحرين</a></p></section><footer>اختاري العيار ثم أدخلي سعر الجرام لذلك العيار في الخانة التي تظهر فوق زر الحساب. الحساب = الوزن × سعر الجرام. النتيجة تقديرية حسب السعر المدخل، ولا تشمل المصنعية أو الضرائب أو هامش المحل. لا يوجد تحديث تلقائي للأسعار.</footer></main>
+<script>
+'use strict';
+let karat=21;
+const storageKey='bahrain_gold_prices_by_karat_v1';
+const prices={'18':'','21':'','22':'','24':''};
+try {
+ const saved=JSON.parse(localStorage.getItem(storageKey)||'{}');
+ for(const k of Object.keys(prices)) if(typeof saved[k]==='string') prices[k]=saved[k];
+} catch(e) {}
+function savePrices(){try{localStorage.setItem(storageKey,JSON.stringify(prices))}catch(e){}}
+
+const get=id=>document.getElementById(id);
+const fmt=n=>n.toLocaleString('en-US',{minimumFractionDigits:3,maximumFractionDigits:3});
+function calculate(){
+ const rawW=get('weight').value.trim(),rawP=get('gramPrice').value.trim(),w=Number(rawW),p=Number(rawP);
+ if(!rawW||!Number.isFinite(w)||w<=0){get('total').textContent='— د.ب.';get('info').textContent='أدخلي وزنًا صحيحًا أكبر من صفر';return}
+ if(!rawP||!Number.isFinite(p)||p<=0){get('total').textContent='— د.ب.';get('info').textContent='أدخلي سعر جرام عيار '+karat+' في الخانة';return}
+ get('total').textContent=fmt(w*p)+' د.ب.';
+ get('info').textContent=fmt(w)+' جرام × '+fmt(p)+' د.ب. (عيار '+karat+')';
+}
+document.querySelectorAll('[data-k]').forEach(b=>b.addEventListener('click',()=>{karat=Number(b.dataset.k);document.querySelectorAll('[data-k]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));get('priceLabel').textContent='سعر جرام عيار '+karat+' اليوم (د.ب.)';get('gramPrice').value=prices[String(karat)];get('total').textContent='— د.ب.';get('info').textContent='سعر هذا العيار محفوظ إن سبق أدخلتيه؛ اضغطي احسبي بعد التأكد منه'}));
+get('calculate').addEventListener('click',calculate);
+get('weight').addEventListener('input',()=>{get('total').textContent='— د.ب.'});
+get('gramPrice').addEventListener('input',()=>{prices[String(karat)]=get('gramPrice').value;savePrices();get('total').textContent='— د.ب.'});
+get('gramPrice').value=prices[String(karat)];
+</script></body></html>
